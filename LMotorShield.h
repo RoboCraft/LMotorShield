@@ -46,19 +46,33 @@ public:
   void end();
   
   void motorSpeed(uint8_t motor, uint8_t speed);
+  
   void motorDirection(uint8_t motor, LMS_Direction direction);
+  void motorForward(uint8_t motor);
+  void motorBackward(uint8_t motor);
+  
   void motorBreak(uint8_t motor, bool on);
+  void motorStop(uint8_t motor);
+  void motorRun(uint8_t motor);
   
   void multipleMotorSpeed(unsigned selected_motors, uint8_t speed);
+  
   void multipleMotorDirection(unsigned selected_motors, LMS_Direction direction);
+  void multipleMotorForward(unsigned selected_motors);
+  void multipleMotorBackward(unsigned selected_motors);
+  
   void multipleMotorBreak(unsigned selected_motors, bool on);
+  void multipleMotorStop(unsigned selected_motors);
+  void multipleMotorRun(unsigned selected_motors);
   
   void servoWrite(uint8_t servo, uint8_t angle);
   void multipleServoWrite(unsigned selected_servos, uint8_t angle);
   
-  // TODO
-  //motorStop
-  //motorRun
+  uint8_t getMotorLastSpeed(uint8_t motor);
+  LMS_Direction getMotorDirection(uint8_t motor);
+  bool getMotorBreak(uint8_t motor);
+  
+  uint8_t getServoLastAngle(uint8_t servo);
 
 private:
   struct Motor
@@ -66,6 +80,7 @@ private:
     uint8_t pwm_pin;
     uint8_t dir_pin;
     uint8_t brk_pin;
+    uint8_t last_speed;
   };
   
   typedef Motor MotorArray[LMS_MOTORS_AMOUNT];

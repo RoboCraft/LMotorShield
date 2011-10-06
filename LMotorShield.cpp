@@ -36,6 +36,7 @@ void LMotorShield::remapMotorPins(uint8_t motor_num,
     m.pwm_pin = pwm_pin;
     m.dir_pin = dir_pin;
     m.brk_pin = brk_pin;
+    m.last_speed = 0;
   }
 }
 
@@ -77,8 +78,11 @@ void LMotorShield::end()
 
 void LMotorShield::motorSpeed(uint8_t motor, uint8_t speed)
 {
-  if (1 <= motor && motor <= LMS_MOTORS_AMOUNT) 
+  if (1 <= motor && motor <= LMS_MOTORS_AMOUNT)
+  {
+    motors[motor - 1].last_speed = speed;
     analogWrite(motors[motor - 1].pwm_pin, speed);
+  }
 }
 
 
@@ -89,10 +93,34 @@ void LMotorShield::motorDirection(uint8_t motor, LMS_Direction direction)
 }
 
 
+void LMotorShield::motorForward(uint8_t motor)
+{
+  motorDirection(motor, LMS_FORWARD);
+}
+
+
+void LMotorShield::motorBackward(uint8_t motor)
+{
+  motorDirection(motor, LMS_BACKWARD);
+}
+
+
 void LMotorShield::motorBreak(uint8_t motor, bool on)
 {
   if (1 <= motor && motor <= LMS_MOTORS_AMOUNT)
     digitalWrite(motors[motor - 1].brk_pin, (on ? HIGH : LOW));
+}
+
+
+void LMotorShield::motorStop(uint8_t motor)
+{
+  motorBreak(motor, true);
+}
+
+
+void LMotorShield::motorRun(uint8_t motor)
+{
+  motorBreak(motor, false);
 }
 
 
@@ -108,7 +136,8 @@ void LMotorShield::multipleMotorSpeed(unsigned selected_motors, uint8_t speed)
 }
 
 
-void LMotorShield::multipleMotorDirection(unsigned selected_motors, LMS_Direction direction)
+void LMotorShield::multipleMotorDirection(
+ unsigned selected_motors, LMS_Direction direction)
 {
   for (unsigned i = 1, motor_mask = LMS_FIRST_MOTOR;
        i <= LMS_MOTORS_AMOUNT;
@@ -117,6 +146,18 @@ void LMotorShield::multipleMotorDirection(unsigned selected_motors, LMS_Directio
     if (selected_motors & motor_mask)
       motorDirection(i, direction);
   }
+}
+
+
+void LMotorShield::multipleMotorForward(unsigned selected_motors)
+{
+  multipleMotorDirection(selected_motors, LMS_FORWARD);
+}
+
+
+void LMotorShield::multipleMotorBackward(unsigned selected_motors)
+{
+  multipleMotorDirection(selected_motors, LMS_BACKWARD);
 }
 
 
@@ -129,6 +170,18 @@ void LMotorShield::multipleMotorBreak(unsigned selected_motors, bool on)
     if (selected_motors & motor_mask)
       motorBreak(i, on);
   }
+}
+
+
+void LMotorShield::multipleMotorStop(unsigned selected_motors)
+{
+  multipleMotorBreak(selected_motors, true);
+}
+
+
+void LMotorShield::multipleMotorRun(unsigned selected_motors)
+{
+  multipleMotorBreak(selected_motors, false);
 }
 
 
@@ -148,4 +201,40 @@ void LMotorShield::multipleServoWrite(unsigned selected_servos, uint8_t angle)
     if (selected_servos & servo_mask)
       servoWrite(i, angle);
   }
+}
+
+
+uint8_t LMotorShield::getMotorLastSpeed(uint8_t motor)
+{
+  if (1 <= motor && motor <= LMS_MOTORS_AMOUNT)
+    return motors[motor - 1].last_speed;
+  
+  return 0;
+}
+
+
+LMS_Direction LMotorShield::getMotorDirection(uint8_t motor)
+{
+  if (1 <= motor && motor <= LMS_MOTORS_AMOUNT)
+    return static_cast<LMS_Direction>(digitalRead(motors[motor - 1].dir_pin));
+  
+  return LMS_FORWARD;
+}
+
+
+bool LMotorShield::getMotorBreak(uint8_t motor)
+{
+  if (1 <= motor && motor <= LMS_MOTORS_AMOUNT)
+    return (digitalRead(motors[motor - 1].brk_pin) == HIGH);
+  
+  return false;
+}
+
+
+uint8_t LMotorShield::getServoLastAngle(uint8_t servo)
+{
+  if (1 <= servo && servo <= LMS_SERVOS_AMOUNT)
+    return servos[servo - 1].read();
+  
+  return 0;
 }
