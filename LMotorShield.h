@@ -1,3 +1,24 @@
+/* This library for Arduino provides convinient interface for LMotorShield extension board
+ * for Arduino. Though you may access all LMotorShield hardware via standard Servo
+ * library and control motors directly via L293D using digital pins and PWM.
+ * 
+ * Copyright (C) 2011 Artem Borisovskiy (bytefu@gmail.com), http://robocraft.ru
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 #ifndef LMOTORSHIELD_H_
 #define LMOTORSHIELD_H_
 
