@@ -28,8 +28,8 @@
 
 enum
 {
-  LMS_MOTORS_AMOUNT = 2,
-  LMS_SERVOS_AMOUNT = 4
+  LMS_MOTORS_QUANTITY = 2,
+  LMS_SERVOS_QUANTITY = 4
 };
 
 enum
@@ -39,7 +39,7 @@ enum
   LMS_MOTOR2 = LMS_FIRST_MOTOR << 1,
   LMS_MOTORS = LMS_MOTOR1 | LMS_MOTOR2,
 
-  LMS_FIRST_SERVO = LMS_FIRST_MOTOR << LMS_MOTORS_AMOUNT,
+  LMS_FIRST_SERVO = LMS_FIRST_MOTOR << LMS_MOTORS_QUANTITY,
   LMS_SERVO1 = LMS_FIRST_SERVO << 0,
   LMS_SERVO2 = LMS_FIRST_SERVO << 1,
   LMS_SERVO3 = LMS_FIRST_SERVO << 2,
@@ -104,12 +104,12 @@ private:
     uint8_t last_speed;
   };
   
-  typedef Motor MotorArray[LMS_MOTORS_AMOUNT];
+  typedef Motor MotorArray[LMS_MOTORS_QUANTITY];
   MotorArray motors;
   
-  Servo servos[LMS_SERVOS_AMOUNT];
+  Servo servos[LMS_SERVOS_QUANTITY];
   
-  typedef uint8_t PinArray[LMS_SERVOS_AMOUNT];
+  typedef uint8_t PinArray[LMS_SERVOS_QUANTITY];
   PinArray servo_pins;
 };
 
