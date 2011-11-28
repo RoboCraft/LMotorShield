@@ -26,8 +26,8 @@ LMotorShield::LMotorShield()
 {
   static MotorArray const motors_initial_config =
   {
-    { 11, 8, 4 },
-    { 3, 7, 2 }
+    { 11, 8, 4, 0 },
+    { 3,  7, 2, 0 }
   };
   
   for (unsigned i = 0; i < LMS_MOTORS_QUANTITY; ++i)
@@ -55,7 +55,6 @@ void LMotorShield::remapMotorPins(uint8_t motor_num,
     m.pwm_pin = pwm_pin;
     m.dir_pin = dir_pin;
     m.brk_pin = brk_pin;
-    m.last_speed = 0;
   }
 }
 
