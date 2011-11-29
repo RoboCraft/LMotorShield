@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Библиотека LMotorShield</title><style type="text/css">
+  table
+  {
+    border-collapse: collapse;
+  }
+
+  table
+  {
+    border: 2pt solid;
+  }
+  
+  td, th
+  {
+    border: 1pt solid;
+  }
+
+  td
+  {
+    text-align: center;
+  }
+  
+  caption
+  {
+    padding: 0.4em;
+    border: 2pt solid;
+    font-style: italic;
+    border-bottom-style: none;
+  }
+
+  th
+  {
+    background-color: #E4E4E4;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+  }
+  
+  .constant-name
+  {
+    font-weight: bold;
+    color: #773366;
+  }
+  
+  .constant-value
+  {
+    color: #4422BB;
+  }
+  
+  .typename
+  {
+    color: green;
+  }
+  
+  .keyword
+  {
+    color: green;
+  }
+  
+  .method-name
+  {
+    color: #1133CC;
+  }
+  
+  .enum-name
+  {
+    color: #1133CC;
+  }
+  
+  .description
+  {
+    border-width: 1pt;
+    border-color: black;
+    border-style: solid;
+    padding: 0.5em;
+    /*margin-left: 1em;*/
+    margin-top: 0.3em;
+    background-color: #ECECF7;
+  }
+  
+  .enum
+  {
+    margin-left: 1em;
+  }
+  </style><meta http-equiv="Content-Type" content="text/html;charset=UTF-8" /></head><body><h1>LMotorShield</h1><span>Содержание:<ul><li><a href="#overview">Обзор</a></li><li><a href="#classes">Классы</a></li><li><a href="#methods">Методы</a></li><li><a href="#constants">Константы</a></li><li><a href="#examples">Примеры</a></li></ul></span><p id="overview">Эта библиотека реализует программный интерфейс к L-MotorShield - плате расширения для Arduino на базе микросхемы L293, предоставляя удобный доступ к подключенным к ней моторам и сервомашинкам. К плате L-MotorShield может быть подключено до 2 моторов и до 4 сервомашинок, и доступ из библиотеки к ним может быть как одиночным, так и пакетным, по несколько сразу.</p><p>Для сервомашинок используется стандатное управление через библиотеку Servo, а моторы управляются двумя обязательными сигналами - <b>PWM</b> (ШИМ, скорость) и <b>DIR</b> (направление), и одним опциональным - <b>BRK</b> (резкое торможение).</p><p><table><caption>Пины Arduino для управления по умолчанию</caption><thead><tr><td></td><th><b>PWM</b></th><th><b>DIR</b></th><th>BRK</th></tr></thead><tbody><tr><th><b>Мотор 1</b></th><td>11</td><td>8</td><td>4</td></tr><tr><th><b>Мотор 2</b></th><td>3</td><td>7</td><td>2</td></tr><tr><th><b>Серво 1</b></th><td>10</td></tr><tr><th><b>Серво 2</b></th><td>9</td></tr><tr><th><b>Серво 3</b></th><td>6</td></tr><tr><th><b>Серво 4</b></th><td>5</td></tr></tbody></table></p><h2><span id="classes">Классы</span></h2>Для работы с платой служит класс <b>LMotorShield</b><span>. Так как плат на Arduino может быть установлено больше одной, число экземпляров класса не ограничено - можно создавать по экземпляру на каждый L-MotorShield.</span><h2><span id="methods">Методы</span></h2><p><span><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">remapMotorPins</span><span>(<span><span><span class="typename">uint8_t</span> <i>motor_num</i></span>, <span><span class="typename">uint8_t</span> <i>pwm_pin</i></span>, <span><span class="typename">uint8_t</span> <i>dir_pin</i></span>, <span><span class="typename">uint8_t</span> <i>brk_pin</i></span></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">remapServoPins</span><span>(<span><span><span class="typename">uint8_t</span> <i>servo_num</i></span>, <span><span class="typename">uint8_t</span> <i>signal_pin</i></span></span>);</span></code></div></span><div class="description">Переназначают пины L-MotorShield на указанные. Полезно, если ву вас вдруг оказались занятыми пины, указанные в таблице выше. Сервомашинки и моторы нумеруются с единицы - так же, как они подписаны на плате.</div><br /></p><p><span><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">begin</span><span>(<span><span class="typename">unsigned</span> <i>selected_units</i></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">end</span><span>();</span></code></div></span><div class="description">Метод <b>begin()</b> принимает в качестве аргумента битовую комбинацию подключаемых устройств. Описание соответствующих констант смотрите ниже в соотвествующем разделе. Метод <b>end()</b> добавлен пока просто для симметрии, так как в данный момент он ничего не делает.</div><br /></p><p><span><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">motorSpeed</span><span>(<span><span><span class="typename">uint8_t</span> <i>motor</i></span>, <span><span class="typename">uint8_t</span> <i>speed</i></span></span>);</span></code></div><br /><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">motorDirection</span><span>(<span><span><span class="typename">uint8_t</span> <i>motor</i></span>, <span><span class="typename">LMS_Direction</span> <i>direction</i></span></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">motorForward</span><span>(<span><span class="typename">uint8_t</span> <i>motor</i></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">motorBackward</span><span>(<span><span class="typename">uint8_t</span> <i>motor</i></span>);</span></code></div><br /><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">motorBreak</span><span>(<span><span><span class="typename">uint8_t</span> <i>motor</i></span>, <span><span class="typename">bool</span> <i>on</i></span></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">motorStop</span><span>(<span><span class="typename">uint8_t</span> <i>motor</i></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">motorRun</span><span>(<span><span class="typename">uint8_t</span> <i>motor</i></span>);</span></code></div></span><div class="description"><span>Основные функции для работы с моторами: задать скорость от <i>0</i> до <i>255</i> - <b>motorSpeed()</b>, направление вперёд/назад - <b>motorDirection()</b> и застопорить/дать газу - <b>motorBreak()</b>. Для пущего удобства есть также <b>motorForward()</b> и <b>motorBackward()</b> в качестве обёрток вокруг motorDirection(), а также <b>motorStop()</b> и <b>motorRun()</b> в качестве обёрток покруг motorBreak().</span></div><br /></p><p><span><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">multipleMotorSpeed</span><span>(<span><span><span class="typename">unsigned</span> <i>selected_motors</i></span>, <span><span class="typename">uint8_t</span> <i>speed</i></span></span>);</span></code></div><br /><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">multipleMotorDirection</span><span>(<span><span><span class="typename">unsigned</span> <i>selected_motors</i></span>, <span><span class="typename">LMS_Direction</span> <i>direction</i></span></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">multipleMotorForward</span><span>(<span><span class="typename">unsigned</span> <i>selected_motors</i></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">multipleMotorBackward</span><span>(<span><span class="typename">unsigned</span> <i>selected_motors</i></span>);</span></code></div><br /><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">multipleMotorBreak</span><span>(<span><span><span class="typename">unsigned</span> <i>selected_motors</i></span>, <span><span class="typename">bool</span> <i>on</i></span></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">multipleMotorStop</span><span>(<span><span class="typename">unsigned</span> <i>selected_motors</i></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">multipleMotorRun</span><span>(<span><span class="typename">unsigned</span> <i>selected_motors</i></span>);</span></code></div></span><div class="description">Всё то же самое, но можно задать одинаковые параметры сразу нескольким моторам, передав в метода соответствующую битову маску. См. раздел <a href="#constants">Константы</a></div><br /></p><p><span><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">servoWrite</span><span>(<span><span><span class="typename">uint8_t</span> <i>servo</i></span>, <span><span class="typename">uint8_t</span> <i>angle</i></span></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">void</span> <span class="method-name">multipleServoWrite</span><span>(<span><span><span class="typename">unsigned</span> <i>selected_servos</i></span>, <span><span class="typename">uint8_t</span> <i>angle</i></span></span>);</span></code></div></span><div class="description"><span>Вызов <b>servoWrite()</b> аналогичен вызову <b>write()</b> для объекта класса <i>Servo</i> из соответствующей библиотеки - тоже задаёт угол поворота, только номер сервы нужно передать в метод. <b>multipleServoWrite()</b>, соответственно, для задания угла сразу нескольким сервам.</span></div><br /></p><p><span><div><code style="font-size: 1.3em;"><span class="typename">uint8_t</span> <span class="method-name">getMotorLastSpeed</span><span>(<span><span class="typename">uint8_t</span> <i>motor</i></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">LMS_Direction</span> <span class="method-name">getMotorDirection</span><span>(<span><span class="typename">uint8_t</span> <i>motor</i></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">bool</span> <span class="method-name">getMotorBreak</span><span>(<span><span class="typename">uint8_t</span> <i>motor</i></span>);</span></code></div><div><code style="font-size: 1.3em;"><span class="typename">uint8_t</span> <span class="method-name">getServoLastAngle</span><span>(<span><span class="typename">uint8_t</span> <i>servo</i></span>);</span></code></div></span><div class="description">Эти методы возвращают последние заданные параметры для указанного мотора или сервомашинки: <b>getMotorLastSpeed()</b> - скорость вращения мотора, <b>getMotorDirection()</b> - направление его вращения, <b>getMotorBreak()</b> - признак установки стопора, <b>getServoLastAngle()</b> - угол поворота сервомашинки.</div><br /></p><h2><span id="constants">Константы</span></h2><p><span><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_MOTORS_QUANTITY</span> = <span class="constant-value">2</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_SERVOS_QUANTITY</span> = <span class="constant-value">4</span></code></div></span><div class="description">блаблабла</div><br /></p><p><span><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_FIRST_MOTOR</span> = <span class="constant-value">1 << 0</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_MOTOR1</span> = <span class="constant-value">LMS_FIRST_MOTOR</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_MOTOR2</span> = <span class="constant-value">LMS_FIRST_MOTOR << 1</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_MOTORS</span> = <span class="constant-value">LMS_MOTOR1 | LMS_MOTOR2</span></code></div></span><div class="description"><span>Битовые маски для использования в методах <b>multiple*()</b>., которые работают с моторами - в том числе <b>begin()</b>.</span></div><br /></p><p><span><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_FIRST_SERVO</span> = <span class="constant-value">LMS_FIRST_MOTOR << LMS_MOTORS_QUANTITY</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_SERVO1</span> = <span class="constant-value">LMS_FIRST_SERVO << 0</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_SERVO2</span> = <span class="constant-value">LMS_FIRST_SERVO << 1</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_SERVO3</span> = <span class="constant-value">LMS_FIRST_SERVO << 2</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_SERVO4</span> = <span class="constant-value">LMS_FIRST_SERVO << 3</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_SERVOS</span> = <span class="constant-value">LMS_SERVO1 | LMS_SERVO2 | LMS_SERVO3 | LMS_SERVO4</span></code></div></span><div class="description"><span>Битовые маски для использования в методах <b>multiple*()</b>., которые работают с сервомашинками, включая <b>begin()</b>. Битовые маски легко комбинировать - например, если нужно включить все сервы, кроме третьей, это можно сделать так:<pre><span style="color: blue;">LMotorShield</span> lms;
+lms.<span style="color: darkblue;">begin</span>(<span style="color: maroon;">LMS_SERVOS</span> &amp; ~<span style="color: maroon;">LMS_SERVO3</span>);</pre>Здесь мы сбросили бит, соответствующий третьей серве, в маске для всех серв, тем самым исключив её из инициализации</span></div><br /></p><p><span><div class="enum-name">LMS_Direction</div>{<div class="enum"><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_FORWARD</span> = <span class="constant-value">HIGH</span></code></div><div><code style="font-size: 1.3em;"><span class="constant-name">LMS_BACKWARD</span> = <span class="constant-value">LOW</span></code></div></div>}</span><div class="description">Вращение мотора вперёд/назад.</div><br /></p><h2><span id="examples">Примеры</span></h2><pre>
+<span style="color: purple;">#include &lt;Servo.h&gt;</span>
+<span style="color: purple;">#include &lt;LMotorShield.h&gt;</span>
+
+<span style="color: blue;">LMotorShield</span> lms;
+
+<span style="color: blue;">void</span> setup()
+{
+  <span style="color: green;">/* Задействуем все моторы и все сервы */</span>
+  lms.<span style="color: darkblue;">begin</span>(<span style="color: maroon;">LMS_MOTORS</span> | <span style="color: maroon;">LMS_SERVOS</span>);
+}
+
+<span style="color: blue;">void</span> loop()
+{
+  lms.<span style="color: darkblue;">motorSpeed</span>(<span style="color: red;">1</span>, <span style="color: red;">30</span>); <span style="color: green;">// первому двигателю ставим скорость 30
+</span>  lms.<span style="color: darkblue;">motorDirection</span>(<span style="color: red;">1</span>, <span style="color: maroon;">LMS_FORWARD</span>); <span style="color: green;">// и задаём направление вращения - прямо
+</span>  
+  lms.<span style="color: darkblue;">motorSpeed</span>(<span style="color: red;">2</span>, <span style="color: red;">30</span>); <span style="color: green;">// второму двигателю ставим скорость 30
+</span>  lms.<span style="color: darkblue;">motorBackward</span>(<span style="color: red;">2</span>);  <span style="color: green;">// и запускаем его назад
+</span>
+  lms.<span style="color: darkblue;">multipleServoWrite</span>(<span style="color: maroon;">LMS_SERVOS</span>, <span style="color: red;">90</span>); <span style="color: green;">// все сервы повернуть на 90 градусов
+</span>
+  delay(<span style="color: red;">2000</span>);
+
+  lms.<span style="color: darkblue;">multipleMotorSpeed</span>(<span style="color: maroon;">LMS_MOTORS</span>, <span style="color: red;">60</span>); <span style="color: green;">// обоим моторам задаём скорость 60
+</span>  
+  <span style="color: green;">/* Выставляем сервы по-одной, на разные углы */</span>
+  lms.<span style="color: darkblue;">servoWrite</span>(<span style="color: red;">1</span>, <span style="color: red;">30</span>);  <span style="color: green;">// первую на 30 градусов
+</span>  lms.<span style="color: darkblue;">servoWrite</span>(<span style="color: red;">2</span>, <span style="color: red;">60</span>);  <span style="color: green;">// вторую на 60 градусов
+</span>  lms.<span style="color: darkblue;">servoWrite</span>(<span style="color: red;">3</span>, <span style="color: red;">120</span>); <span style="color: green;">// ...
+</span>  lms.<span style="color: darkblue;">servoWrite</span>(<span style="color: red;">4</span>, <span style="color: red;">150</span>); <span style="color: green;">// ну, вы поняли =)
+</span>
+  delay(<span style="color: red;">2000</span>);
+
+  lms.<span style="color: darkblue;">multipleMotorStop</span>(<span style="color: maroon;">LMS_MOTORS</span>); <span style="color: green;">// затормаживаем оба мотора сразу
+</span>  lms.<span style="color: darkblue;">multipleServoWrite</span>(<span style="color: maroon;">LMS_SERVO1</span> | <span style="color: maroon;">LMS_SERVO2</span>, <span style="color: red;">0</span>); <span style="color: green;">// первую и вторую сервы в 0 градусов
+</span>  lms.<span style="color: darkblue;">multipleServoWrite</span>(<span style="color: maroon;">LMS_SERVO3</span> | <span style="color: maroon;">LMS_SERVO4</span>, <span style="color: red;">180</span>); <span style="color: green;">// 3 и 4 на 180
+</span>
+  delay(<span style="color: red;">2000</span>);
+
+  lms.<span style="color: darkblue;">motorRun</span>(<span style="color: red;">1</span>); <span style="color: green;">// растормаживаем 1 мотор (поедет со скоростью 60 вперёд)
+</span>  lms.<span style="color: darkblue;">motorRun</span>(<span style="color: red;">2</span>); <span style="color: green;">// растормаживаем 1 мотор (поедет со скоростью 60 назад)
+</span>}
+</pre><pre>Copyright (C) 2011 Artem Borisovskiy (bytefu@gmail.com), http://robocraft.ru<br />This library is licensed under the terms of GNU Lesser General Public License (GPL) version 2.1</pre></body></html>
