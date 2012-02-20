@@ -23,7 +23,6 @@
 #define LMOTORSHIELD_H_
 
 #include <stdint.h>
-#include <WProgram.h>
 #include <Servo.h>
 
 enum

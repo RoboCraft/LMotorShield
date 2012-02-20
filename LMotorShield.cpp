@@ -18,9 +18,13 @@
  */
 
 #include <stdint.h>
-#include <WProgram.h>
 #include "LMotorShield.h"
 
+#if defined(ARDUINO) && ARDUINO >= 100
+  #include "Arduino.h"
+#else
+  #include "WProgram.h"
+#endif
 
 LMotorShield::LMotorShield()
 {
