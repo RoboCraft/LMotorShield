@@ -1,30 +1,30 @@
 /* LMotorShield library implementation.
- * 
+ *
  * Copyright (C) 2011 Artem Borisovskiy (bytefu@gmail.com), http://robocraft.ru
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-#include <stdint.h>
-#include "LMotorShield.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
 #else
   #include "WProgram.h"
 #endif
+
+#include <stdint.h>
+#include "LMotorShield.h"
 
 LMotorShield::LMotorShield()
 {
@@ -33,12 +33,12 @@ LMotorShield::LMotorShield()
     { 11, 8, 4, 0 },
     { 3,  7, 2, 0 }
   };
-  
+
   for (unsigned i = 0; i < LMS_MOTORS_QUANTITY; ++i)
     motors[i] = motors_initial_config[i];
-  
+
   static const PinArray servo_pins_initial_config = { 10, 9, 6, 5 };
-  
+
   for (unsigned i = 0; i < LMS_SERVOS_QUANTITY; ++i)
     servo_pins[i] = servo_pins_initial_config[i];
 }
@@ -55,7 +55,7 @@ void LMotorShield::remapMotorPins(uint8_t motor_num,
   if (1 < motor_num && motor_num <= LMS_MOTORS_QUANTITY)
   {
     Motor &m = motors[motor_num - 1];
-    
+
     m.pwm_pin = pwm_pin;
     m.dir_pin = dir_pin;
     m.brk_pin = brk_pin;
@@ -82,7 +82,7 @@ void LMotorShield::begin(unsigned selected_units)
       pinMode(motors[i].brk_pin, OUTPUT);
     }
   }
-  
+
   for (unsigned i = 0, servo_mask = LMS_FIRST_SERVO;
        i < LMS_SERVOS_QUANTITY;
        ++i, servo_mask <<= 1)
@@ -230,7 +230,7 @@ uint8_t LMotorShield::getMotorLastSpeed(uint8_t motor)
 {
   if (1 <= motor && motor <= LMS_MOTORS_QUANTITY)
     return motors[motor - 1].last_speed;
-  
+
   return 0;
 }
 
@@ -239,7 +239,7 @@ LMS_Direction LMotorShield::getMotorDirection(uint8_t motor)
 {
   if (1 <= motor && motor <= LMS_MOTORS_QUANTITY)
     return static_cast<LMS_Direction>(digitalRead(motors[motor - 1].dir_pin));
-  
+
   return LMS_FORWARD;
 }
 
@@ -248,7 +248,7 @@ bool LMotorShield::getMotorBreak(uint8_t motor)
 {
   if (1 <= motor && motor <= LMS_MOTORS_QUANTITY)
     return (digitalRead(motors[motor - 1].brk_pin) == HIGH);
-  
+
   return false;
 }
 
@@ -257,6 +257,6 @@ uint8_t LMotorShield::getServoLastAngle(uint8_t servo)
 {
   if (1 <= servo && servo <= LMS_SERVOS_QUANTITY)
     return servos[servo - 1].read();
-  
+
   return 0;
 }
